@@ -9,6 +9,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Bootloader\Bootloader.AspNet.Extensions\Bootloader.AspNet.Extensions.csproj" />
       <ProjectReference Include="..\..\Bootloader\Bootloader.Contracts\Bootloader.Contracts.csproj" />
       <ProjectReference Include="..\..\Module1\Module1.Client\Module1.Client.csproj" />
     </ItemGroup>

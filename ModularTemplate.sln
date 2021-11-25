@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module1.Client", "Module1\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Module1.DataContracts", "Module1\Module1.DataContracts\Module1.DataContracts.csproj", "{A78AECD9-EC25-40A5-ABD4-225186239C6E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootloader.AspNet.Extensions", "Bootloader\Bootloader.AspNet.Extensions\Bootloader.AspNet.Extensions.csproj", "{C26A4DF4-8C0C-4F70-B91D-68A3618AE70E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,6 +50,10 @@ Global
 		{A78AECD9-EC25-40A5-ABD4-225186239C6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A78AECD9-EC25-40A5-ABD4-225186239C6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A78AECD9-EC25-40A5-ABD4-225186239C6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C26A4DF4-8C0C-4F70-B91D-68A3618AE70E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C26A4DF4-8C0C-4F70-B91D-68A3618AE70E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C26A4DF4-8C0C-4F70-B91D-68A3618AE70E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C26A4DF4-8C0C-4F70-B91D-68A3618AE70E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B7E32073-5EC4-4E33-AC49-3A1EB6F09CAC} = {679AB8EC-5A10-4209-A67C-10D804A09C0F}
@@ -56,5 +62,6 @@ Global
 		{673B7171-9F47-4ACF-BF30-2A5E59D2EB09} = {3DC28373-9C35-4A37-8B24-C01244792180}
 		{5C78AEFD-E72C-41B8-939A-AB88E5CC97F3} = {C448A1B5-17F4-458E-B5E3-E1CA1DBF0E74}
 		{A78AECD9-EC25-40A5-ABD4-225186239C6E} = {C448A1B5-17F4-458E-B5E3-E1CA1DBF0E74}
+		{C26A4DF4-8C0C-4F70-B91D-68A3618AE70E} = {679AB8EC-5A10-4209-A67C-10D804A09C0F}
 	EndGlobalSection
 EndGlobal

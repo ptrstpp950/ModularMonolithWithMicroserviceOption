@@ -1,3 +1,4 @@
+using Bootloader.AspNet.Extensions;
 using Bootloader.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,11 +29,7 @@ namespace ModuleApi1
             services.AddHttpClient();
             services.AddSingleton<IForecastService, ForecastService>();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc(ModuleName + "-" + ModuleVersion,
-                    new OpenApiInfo {Title = ModuleName, Version = ModuleVersion});
-            });
+            services.AddBootloaderSwagger(this);
         }
         
         public void Configure(IApplicationBuilder app)
@@ -41,15 +38,7 @@ namespace ModuleApi1
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger(c=>
-                {
-                    c.RouteTemplate = ModuleName+"/swagger/{documentName}/swagger.json";
-                });
-                app.UseSwaggerUI(c =>
-                {
-                    c.SwaggerEndpoint($"{ModuleName}-{ModuleVersion}/swagger.json", $"{ModuleName} {ModuleVersion}");
-                    c.RoutePrefix = ModuleName+"/swagger";
-                });
+                app.UseBootloaderSwaggerWithUI(this, Configuration);
             }
 
             app.UseHttpsRedirection();

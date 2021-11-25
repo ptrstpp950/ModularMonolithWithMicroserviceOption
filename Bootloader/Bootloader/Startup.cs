@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using Bootloader.Contracts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 
 namespace Bootloader
 {
@@ -18,7 +17,7 @@ namespace Bootloader
     {
         private readonly IConfiguration _configuration;
         private readonly IWebHostEnvironment _env;
-        private List<IModuleStartup> _moduleStartups;
+        private readonly List<IModuleStartup> _moduleStartups;
         
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
@@ -31,6 +30,12 @@ namespace Bootloader
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo {Title = "Bootloader", Version = "v1"});
+                c.CustomSchemaIds(x => x.FullName);
+                c.OperationFilter<TagByModuleNameOperationFilter>();
+            });
             foreach (var moduleStartup in _moduleStartups)
             {
                 moduleStartup.ConfigureServices(services);
@@ -39,7 +44,7 @@ namespace Bootloader
 
         private List<IModuleStartup> ModuleLoader()
         {
-            var moduleRoot = System.AppDomain.CurrentDomain.BaseDirectory;
+            var moduleRoot = AppDomain.CurrentDomain.BaseDirectory;
             if (!string.IsNullOrEmpty(_configuration["moduleRoot"]))
                 moduleRoot = _configuration["moduleRoot"];
             var assemblies = Directory.GetFiles(moduleRoot, "Module*.dll", SearchOption.AllDirectories)
@@ -74,6 +79,8 @@ namespace Bootloader
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Bootloader v1"));
             }
 
             app.UseRouting();
@@ -90,7 +97,8 @@ namespace Bootloader
 
         }
     }
-    
+
+
     internal class HostServiceProvider : IServiceProvider
     {
         private readonly IConfiguration _configuration;
