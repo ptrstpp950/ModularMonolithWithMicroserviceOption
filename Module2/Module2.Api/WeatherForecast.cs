@@ -4,6 +4,7 @@ namespace Module2.Api
 {
     public class WeatherForecast
     {
+        public string Source { get; set; }
         public DateTimeOffset Date { get; set; }
 
         public int TemperatureC { get; set; }

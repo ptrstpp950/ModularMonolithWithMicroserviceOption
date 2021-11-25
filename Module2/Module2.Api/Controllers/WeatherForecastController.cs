@@ -30,8 +30,9 @@ namespace Module2.Api.Controllers
             var forecast = await _module1Client.GetWeatherForecast(days);
             return forecast.Select(x => new WeatherForecast()
             {
+                Source = "Module1",
                 Date = x.Date,
-                Summary = "External response is: " + x.Summary,
+                Summary = x.Summary.ToString(),
                 TemperatureC = x.TemperatureC
             });
         }
