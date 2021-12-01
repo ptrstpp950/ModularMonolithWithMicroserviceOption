@@ -1,0 +1,12 @@
+{
+	"author": "Piotr Stapp",
+	"classifications": ["Web", "Api"],
+	"name": "Bootloader Module",
+	"identity": "bootloader.module",
+	"shortName": "bootloader.module",
+	"tags": {
+		"language": "C#"
+	},
+	"sourceName": "Module1",
+	"preferNameDirectory": "true"
+}
