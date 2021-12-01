@@ -1,6 +1,7 @@
 using Bootloader.AspNet.Extensions;
 using Bootloader.Contracts;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,8 @@ namespace ModuleApi1
             services.AddSingleton<IForecastService, ForecastService>();
             services.AddControllers();
             services.AddBootloaderSwagger(this);
+            
+            services.AddHealthChecks();
         }
         
         public void Configure(IApplicationBuilder app)
@@ -47,7 +50,13 @@ namespace ModuleApi1
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                if (!Configuration.IsBootloaderHosting())
+                    endpoints.AddHealthCheckConfig();
+
+                endpoints.MapControllers();
+            });
         }
     }
 }

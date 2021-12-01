@@ -21,20 +21,22 @@ namespace Module1.Client
         }
 
         public static Module1ClientConfiguration ToModule1ClientConfiguration(
-            this IConfiguration configuration,
-            string serviceUrl = "ServiceDiscovery:Module1:Url")
+            this IConfiguration configuration)
         {
-            Uri url;
+            Uri url, healthUrl;
             try
             {
-                url = new Uri(configuration.EnsureKey(serviceUrl));
+                var serviceUrlKey = "ServiceDiscovery:Module1:Url";
+                var healthUrlKey = "ServiceDiscovery:Module1:HealthUrl";
+                url = new Uri(configuration.EnsureKey(serviceUrlKey));
+                healthUrl = new Uri(configuration.EnsureKey(healthUrlKey));
             }
             catch (Exception ex)
             {
                 throw new ArgumentException("Cannot create valid service URL", ex);
             }
 
-            return new Module1ClientConfiguration {ServiceUrl = url};
+            return new Module1ClientConfiguration {ServiceUrl = url, HealthUrl = healthUrl};
         }
 
 

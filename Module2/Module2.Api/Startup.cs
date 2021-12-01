@@ -1,11 +1,13 @@
 using Bootloader.AspNet.Extensions;
 using Bootloader.Contracts;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Module1.Client;
+using Module2.Api.HealthChecks;
 
 namespace Module2.Api
 {
@@ -27,6 +29,13 @@ namespace Module2.Api
             services.AddModule1Client(Configuration.ToModule1ClientConfiguration());
             services.AddControllers();
             services.AddBootloaderSwagger(this);
+
+            var healthChecksBuilder = services.AddHealthChecks();
+            if (!Configuration.IsBootloaderHosting())
+            {
+                //In bootloader mode we can skip some health checks
+                healthChecksBuilder.AddCheck<DependencyHealthCheck>("module1");
+            }
         }
         public void Configure(IApplicationBuilder app)
         {
@@ -43,8 +52,13 @@ namespace Module2.Api
             app.UseRouting();
 
             app.UseAuthorization();
-
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+            app.UseEndpoints(endpoints =>
+            {
+                if (!Configuration.IsBootloaderHosting())
+                    endpoints.AddHealthCheckConfig();
+                endpoints.MapControllers();
+            });
         }
     }
 }

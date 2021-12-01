@@ -12,7 +12,9 @@ namespace Module1.Client
         {
             var httpClient = httpClientFactory.CreateClient();
             httpClient.BaseAddress = configuration.ServiceUrl;
-            return new Module1Client(logger, httpClient);
+            var healthHttpClient = httpClientFactory.CreateClient();
+            healthHttpClient.BaseAddress = configuration.HealthUrl;
+            return new Module1Client(logger, httpClient, healthHttpClient);
         }
     }
 }
